@@ -7,7 +7,7 @@ import { TareaComponent } from './tarea/tarea.component';
 import { HomeComponent } from './home/home.component';
 import { CommonModule } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ReactiveFormsModule } from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { MaterialModule } from "./material/material.module";
 import { TareasListComponent } from './tareas-list/tareas-list.component';
 
@@ -24,7 +24,8 @@ import { TareasListComponent } from './tareas-list/tareas-list.component';
     CommonModule,
     AppRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,1 +1,41 @@
-<p>tareas-list works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Lista de Tareas</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <span>Filtros:</span>
+    <mat-button-toggle-group #group="matButtonToggleGroup">
+      <mat-button-toggle (click)="filter('all')" value="all">
+        Todas
+      </mat-button-toggle>
+      <mat-button-toggle (click)="filter('completed')" value="completed">
+        Completadas
+      </mat-button-toggle>
+      <mat-button-toggle (click)="filter('pending')" value="pending">
+        Pendientes
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <ul>
+      <li *ngFor="let task of filteredTasks">
+        <div>
+          {{ task.name }} - {{ task.dueDate | date }}
+          <mat-checkbox class="example-margin"
+                        [(ngModel)]="task.completed"
+                        [labelPosition]="'before'"
+                        disabled>
+          </mat-checkbox>
+          <div>
+            Personas Asociadas:
+            <ul>
+              <li *ngFor="let person of task.assignedTo">
+                {{ person.fullName }} ({{ person.age }})<br>
+                Habilidades: {{ person.skills.join(', ')}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </mat-card-content>
+</mat-card>

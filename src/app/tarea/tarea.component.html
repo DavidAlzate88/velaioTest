@@ -16,16 +16,16 @@
         <div class="input-container">
           <mat-form-field>
             <mat-label>Fecha limite</mat-label>
-            <input matInput formControlName="deadline" required>
-            <mat-error *ngIf="taskForm.controls.deadline.invalid">{{ getErrorMessage() }}</mat-error>
+            <input matInput formControlName="dueDate" required>
+            <mat-error *ngIf="taskForm.controls.dueDate.invalid">{{ getErrorMessage() }}</mat-error>
           </mat-form-field>
         </div>
-        <div formGroupName="associatedPeople">
+        <div formGroupName="assignedTo">
           <div class="input-container">
             <mat-form-field>
               <mat-label>Nombre completo</mat-label>
               <input matInput formControlName="fullName" required>
-              <mat-error *ngIf="taskForm.controls.associatedPeople.controls.fullName.invalid">{{ getErrorMessage() }}
+              <mat-error *ngIf="taskForm.controls.assignedTo.controls.fullName.invalid">{{ getErrorMessage() }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -33,7 +33,7 @@
             <mat-form-field>
               <mat-label>Edad</mat-label>
               <input matInput formControlName="age" required>
-              <mat-error *ngIf="taskForm.controls.associatedPeople.controls.age.invalid">{{ getErrorMessage() }}
+              <mat-error *ngIf="taskForm.controls.assignedTo.controls.age.invalid">{{ getErrorMessage() }}
               </mat-error>
             </mat-form-field>
           </div>

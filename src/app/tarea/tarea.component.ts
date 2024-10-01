@@ -9,15 +9,15 @@ import { FormBuilder, Validators } from "@angular/forms";
 export class TareaComponent {
   constructor(private formBuilder: FormBuilder) {}
 
-  skills = ['Method Acting', 'Singing', 'Dancing', 'Swordfighting'];
+  skills = [];
 
   taskForm = this.formBuilder.group({
     name: ['', [Validators.required]],
-    deadline: ['', [Validators.required]],
-    associatedPeople: this.formBuilder.group({
+    dueDate: ['', [Validators.required]],
+    assignedTo: this.formBuilder.group({
       fullName: ['', [Validators.required]],
       age: ['', [Validators.required]],
-      skill: [this.skills],
+      skills: [this.skills],
     }),
   });
 
@@ -25,7 +25,7 @@ export class TareaComponent {
     let errorMessage: string = '';
     if (
       this.taskForm.controls.name.hasError('required') ||
-      this.taskForm.controls.associatedPeople.controls.age.hasError('required')
+      this.taskForm.controls.assignedTo.controls.age.hasError('required')
     ) {
       errorMessage = 'Este campo es requerido';
     }
@@ -53,7 +53,7 @@ export class TareaComponent {
 
   addMaterial(){
     // this.materiales.push(1);
-    // //Update what ever the formcontrol you want here as per requirement
+
     // this.form.patchValue({
     //   materials: function (){
     //     let temp = "",
@@ -67,7 +67,6 @@ export class TareaComponent {
   }
   removeMaterial(){
     // this.materiales.pop();
-    // //Update what ever the formcontrol you want here as per requirement
     // this.form.patchValue({
     //   materials: this.materials
     // });
