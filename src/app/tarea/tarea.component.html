@@ -1,0 +1,51 @@
+<mat-card>
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <mat-card-header>
+      <mat-card-title>Crear Nueva Tarea</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="form-container">
+
+        <div class="input-container">
+          <mat-form-field>
+            <mat-label>Nombre de la tarea</mat-label>
+            <input matInput formControlName="name" required>
+            <mat-error *ngIf="taskForm.controls.name.invalid">{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="input-container">
+          <mat-form-field>
+            <mat-label>Fecha limite</mat-label>
+            <input matInput formControlName="deadline" required>
+            <mat-error *ngIf="taskForm.controls.deadline.invalid">{{ getErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+        <div formGroupName="associatedPeople">
+          <div class="input-container">
+            <mat-form-field>
+              <mat-label>Nombre completo</mat-label>
+              <input matInput formControlName="fullName" required>
+              <mat-error *ngIf="taskForm.controls.associatedPeople.controls.fullName.invalid">{{ getErrorMessage() }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="input-container">
+            <mat-form-field>
+              <mat-label>Edad</mat-label>
+              <input matInput formControlName="age" required>
+              <mat-error *ngIf="taskForm.controls.associatedPeople.controls.age.invalid">{{ getErrorMessage() }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="btn-group-container">
+            <button mat-button (click)="addPerson()">Añadir persona</button>
+            <button mat-button (click)="deletePerson()">Eliminar persona</button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button type="submit">Guardar tarea</button>
+    </mat-card-actions>
+  </form>
+</mat-card>
