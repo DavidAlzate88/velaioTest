@@ -35,7 +35,11 @@ export class TareaComponent {
     return this.formBuilder.group({
       fullName: ['', [Validators.required, Validators.minLength(5)], this.validateUniqueName.bind(this)],
       age: ['', [Validators.required, Validators.min(18)]],
-      skills: [this.formBuilder.array(['', Validators.required])]
+      skills: this.formBuilder.array([
+      this.formBuilder.group({
+        skill: '',
+      })
+    ])
     });
   }
 
@@ -64,7 +68,6 @@ export class TareaComponent {
   }
 
   removePersonSkill(personIndex: number, skillIndex: number) {
-    console.log(this.personSkills(personIndex).length)
     if (this.personSkills(personIndex).length > 1) {
       this.personSkills(personIndex).removeAt(skillIndex);
     }
