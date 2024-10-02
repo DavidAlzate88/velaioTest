@@ -5,7 +5,7 @@ import { TareaComponent } from "./tarea/tarea.component";
 import { TareasListComponent } from "./tareas-list/tareas-list.component";
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: TareasListComponent },
   { path: 'tarea', component: TareaComponent },
   { path: 'tareas-list', component: TareasListComponent },
 ];

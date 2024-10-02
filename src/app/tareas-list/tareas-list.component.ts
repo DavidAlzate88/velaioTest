@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {Task} from "../models/task";
-import {MaterialModule} from "../material/material.module";
-import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import { Component } from '@angular/core';
+import { Task } from "../models/task";
+import { MaterialModule } from "../material/material.module";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   standalone: true,
