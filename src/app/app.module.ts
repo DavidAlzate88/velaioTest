@@ -7,16 +7,14 @@ import { TareaComponent } from './tarea/tarea.component';
 import { HomeComponent } from './home/home.component';
 import { CommonModule } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "./material/material.module";
-import { TareasListComponent } from './tareas-list/tareas-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TareaComponent,
-    HomeComponent,
-    TareasListComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,

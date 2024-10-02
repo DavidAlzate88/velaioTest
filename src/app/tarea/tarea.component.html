@@ -5,41 +5,90 @@
     </mat-card-header>
     <mat-card-content>
       <div class="form-container">
-
         <div class="input-container">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Nombre de la tarea</mat-label>
             <input matInput formControlName="name" required>
-            <mat-error *ngIf="taskForm.controls.name.invalid">{{ getErrorMessage() }}</mat-error>
+            <mat-error *ngIf="taskForm.controls.name.hasError('required')">
+              Este campo es <strong>requerido</strong>
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="input-container">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Fecha limite</mat-label>
-            <input matInput formControlName="dueDate" required>
-            <mat-error *ngIf="taskForm.controls.dueDate.invalid">{{ getErrorMessage() }}</mat-error>
+            <input matInput [matDatepicker]="picker" formControlName="dueDate" required>
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="taskForm.controls.dueDate.hasError('required')">
+              Este campo es <strong>requerido</strong>
+            </mat-error>
           </mat-form-field>
         </div>
-        <div formGroupName="assignedTo">
-          <div class="input-container">
-            <mat-form-field>
-              <mat-label>Nombre completo</mat-label>
-              <input matInput formControlName="fullName" required>
-              <mat-error *ngIf="taskForm.controls.assignedTo.controls.fullName.invalid">{{ getErrorMessage() }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="input-container">
-            <mat-form-field>
-              <mat-label>Edad</mat-label>
-              <input matInput formControlName="age" required>
-              <mat-error *ngIf="taskForm.controls.assignedTo.controls.age.invalid">{{ getErrorMessage() }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="btn-group-container">
-            <button mat-button (click)="addPerson()">Añadir persona</button>
-            <button mat-button (click)="deletePerson()">Eliminar persona</button>
+
+        <mat-divider></mat-divider>
+        <mat-card-subtitle class="person-card-subtitle">
+          <span>Personas Asociadas: </span>
+          <button mat-icon-button type="button" matTooltip="Añadir persona" aria-label="Add person icon button"
+                  (click)="addPerson()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-card-subtitle>
+
+        <div formArrayName="assignedTo">
+          <div *ngFor="let persona of person().controls; let personIndex = index" [formGroupName]="personIndex">
+            <div class="input-container">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ personIndex }} Nombre completo</mat-label>
+                <input matInput formControlName="fullName" required>
+                <mat-error *ngIf="persona.get('fullName')?.hasError('required')">
+                  Este campo es <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="persona.get('fullName')?.hasError('uniqueName')">
+                  El nombre ingresado <strong>ya existe</strong> en esta tarea
+                </mat-error>
+                <mat-error *ngIf="persona.get('fullName')?.hasError('minlength')">
+                  El nombre debe contener <strong>mas de 5 letras</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="input-container">
+              <mat-form-field appearance="outline">
+                <mat-label>Edad</mat-label>
+                <input matInput formControlName="age" required>
+                <mat-error *ngIf="persona.get('age')?.hasError('required')">
+                  Este campo es <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="persona.get('age')?.hasError('min')">
+                  La edad debe ser <strong>mayor a 18 años</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="skills-container" formArrayName="skills">
+              <div *ngFor="let skill of personSkills(personIndex).controls; let skillIndex = index"
+                   [formGroupName]="skillIndex">
+                <div class="input-container">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Habilidades</mat-label>
+                    <input matInput formControlName="skill" required>
+                    <mat-error *ngIf="skill.get('skill')?.hasError('required')">
+                      Este campo es <strong>requerido</strong>
+                    </mat-error>
+                    <button mat-icon-button matSuffix type="button" matTooltip="Eliminar Habilidad"
+                            aria-label="remove skill icon button" (click)="removePersonSkill(personIndex,skillIndex)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </mat-form-field>
+                  <button mat-icon-button matSuffix type="button" matTooltip="Añadir Habilidad"
+                          aria-label="Add skill icon button" (click)="addPersonSkill(personIndex)">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button mat-button type="button" (click)="removePerson(personIndex)">Eliminar persona</button>
+            <mat-divider></mat-divider>
           </div>
         </div>
       </div>

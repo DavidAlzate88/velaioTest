@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from "@angular/forms";
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import { Observable, of } from "rxjs";
 
 @Component({
   selector: 'app-tarea',
@@ -7,76 +8,82 @@ import { FormBuilder, Validators } from "@angular/forms";
   styleUrls: ['./tarea.component.scss']
 })
 export class TareaComponent {
-  constructor(private formBuilder: FormBuilder) {}
-
-  skills = [];
+  constructor(private formBuilder: FormBuilder) {
+  }
 
   taskForm = this.formBuilder.group({
     name: ['', [Validators.required]],
     dueDate: ['', [Validators.required]],
-    assignedTo: this.formBuilder.group({
-      fullName: ['', [Validators.required]],
-      age: ['', [Validators.required]],
-      skills: [this.skills],
-    }),
+    assignedTo: this.formBuilder.array([
+      this.formBuilder.group({
+        fullName: ['', [Validators.required, Validators.minLength(5)], this.validateUniqueName.bind(this)],
+        age: ['', [Validators.required, Validators.min(18)]],
+        skills: this.formBuilder.array([
+          this.formBuilder.group({
+            skill: '',
+          })
+        ])
+      })
+    ]),
   });
 
-  getErrorMessage(): string {
-    let errorMessage: string = '';
-    if (
-      this.taskForm.controls.name.hasError('required') ||
-      this.taskForm.controls.assignedTo.controls.age.hasError('required')
-    ) {
-      errorMessage = 'Este campo es requerido';
+  person(): FormArray {
+    return this.taskForm.get('assignedTo') as FormArray;
+  }
+
+  newPerson(): FormGroup {
+    return this.formBuilder.group({
+      fullName: ['', [Validators.required, Validators.minLength(5)], this.validateUniqueName.bind(this)],
+      age: ['', [Validators.required, Validators.min(18)]],
+      skills: [this.formBuilder.array(['', Validators.required])]
+    });
+  }
+
+  addPerson(): void {
+    this.person().push(this.newPerson());
+  }
+
+  removePerson(index: number): void {
+    this.person().removeAt(index)
+  }
+
+  personSkills(index: number): FormArray {
+    return this.person()
+      .at(index)
+      .get('skills') as FormArray;
+  }
+
+  newPersonSkill(): FormGroup {
+    return this.formBuilder.group({
+      skill: '',
+    });
+  }
+
+  addPersonSkill(personIndex: number) {
+    return this.personSkills(personIndex).push(this.newPersonSkill());
+  }
+
+  removePersonSkill(personIndex: number, skillIndex: number) {
+    console.log(this.personSkills(personIndex).length)
+    if (this.personSkills(personIndex).length > 1) {
+      this.personSkills(personIndex).removeAt(skillIndex);
+    }
+  }
+
+  validateUniqueName(control: AbstractControl): Observable<ValidationErrors | null> {
+    const name = control.value;
+    const personControls = this.person().controls;
+
+    for (const personControl of personControls) {
+      if (personControl.value.fullName === name) {
+        return of({uniqueName: true}); // Error de validación
+      }
     }
 
-    return errorMessage;
+    return of(null); // Validación exitosa
   }
 
   onSubmit() {
     console.warn(this.taskForm.value);
-    // this.httpProvider.saveProduct(value).subscribe((data : any) => {
-    //     if (data.status === 204 && data.statusText === 'No Content') {
-    //       this.router.navigate(['products/create']);
-    //     }
-    //   },
-    //   (error : any)=> {
-    //     if (error) {
-    //       if (error.status == 400) {
-    //         const errors = error.error.product;
-    //         // this.openSnackBar('An Error occurred while trying to create the product. Try again later');
-    //         this.modalMessage(errors);
-    //       }
-    //     }
-    //   });
-  }
-
-  addMaterial(){
-    // this.materiales.push(1);
-
-    // this.form.patchValue({
-    //   materials: function (){
-    //     let temp = "",
-    //       this.materials.forEach(index,value){
-    //       temp += value;
-    //     }
-    //     return temp;
-    //   }
-    // });
-
-  }
-  removeMaterial(){
-    // this.materiales.pop();
-    // this.form.patchValue({
-    //   materials: this.materials
-    // });
-  }
-
-  addPerson() {
-
-  }
-
-  deletePerson() {
-
   }
 }

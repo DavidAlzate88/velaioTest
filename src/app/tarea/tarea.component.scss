@@ -4,12 +4,30 @@ mat-card {
   margin: auto;
 }
 
+mat-card-content {
+  padding: 16px;
+}
+
+.input-container {
+  margin: 8px 0;
+}
+
 mat-form-field {
-  min-width: 210px;
+  min-width: 300px;
 }
 
 .form-container {
   display: flex;
   flex-flow: column wrap;
   justify-content: space-around;
+}
+
+.person-card-subtitle {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+
+  span {
+    align-content: center;
+  }
 }

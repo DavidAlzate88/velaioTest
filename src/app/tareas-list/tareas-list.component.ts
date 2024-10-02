@@ -1,8 +1,17 @@
 import {Component} from '@angular/core';
 import {Task} from "../models/task";
+import {MaterialModule} from "../material/material.module";
+import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 @Component({
+  standalone: true,
   selector: 'app-tareas-list',
+  imports: [
+    MaterialModule,
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './tareas-list.component.html',
   styleUrls: ['./tareas-list.component.scss']
 })
@@ -54,7 +63,5 @@ export class TareasListComponent {
         return !task.completed;
       }
     });
-  }
-
-  displayedColumns: string[] = ['completed', 'name', 'dueDate', 'assignedTo'];
+  };
 }

@@ -11,6 +11,10 @@ import { MatGridListModule } from "@angular/material/grid-list";
 import {MatTableModule} from "@angular/material/table";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatDividerModule} from "@angular/material/divider";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 
 
@@ -20,14 +24,18 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     MatButtonToggleModule,
     MatCardModule,
     MatCheckboxModule,
+    MatDatepickerModule,
+    MatDividerModule,
     MatFormFieldModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
+    MatNativeDateModule,
     MatSidenavModule,
     MatTableModule,
     MatToolbarModule,
+    MatTooltipModule,
     MatButtonModule,
   ]
 })
